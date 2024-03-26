@@ -1,0 +1,26 @@
+body {
+    background-image: url(image/back.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+img {
+    border-radius: 4px;
+    padding: 5px;
+    width: 250px;
+}
+
+.card1 {
+    background-color: rgba(110, 154, 179, 0.5);
+    /* Adjust the alpha value to change transparency */
+    height: 100%;
+}
+
+.border-info {
+    margin-left: 100px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-width: 5px;
+}
+

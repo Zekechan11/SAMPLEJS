@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Card</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/7b92f6b770.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-white">List of Handsomeness</h1>
+        <button type="button" class="btn btn-info" data-bs-toggle="modal"
+            data-bs-target="#addProductModal">ADD
+            PRODUCT</button>
+            <button type="button" class="btn btn-info float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add Category
+            </button>
+    </div>
+
+    <div class="container">
+        <div class="card mt-2 card1">
+            <!-- Add Product Modal -->
+            <div class="modal fade" id="addProductModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: black;">
+                            <h5 class="modal-title text-white">Add New Product</h5>
+                            <button type="button" class="btn-close btn btn-danger active" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="productForm">
+                                <div class="mb-3">
+                                    <label for="productName" class="form-label">Product Name:</label>
+                                    <input class="form-control" id="pName" class="pName" type="text">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productCategory" class="form-label">Product Category:</label>
+                                    <select class="form-select mt-2" id="pCat"></select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productQuantity" class="form-label">Quantity:</label>
+                                    <input class="form-control mt-2" id="pQa" type="number">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productImage" class="form-label">Image:</label>
+                                    <input class="form-control mt-2" id="pPic" type="file" onchange="displayImage()">
+                                    <img src="" id="pvView" alt=" " class="rounded mt-2" width="200" height="200">
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success" id="btnAddProd">Add Product</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Add Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header text-white" style="background-color: black;">
+                            <h5 class="modal-title" id="exampleModalLabel">Add New Category</h5>
+                            <button type="button" class="btn-close btn btn-danger active" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="newCategoryForm">
+                                <div class="mb-2">
+                                    <label for="CategoryName" class="col-form-label">Category</label>
+                                    <input type="text" class="form-control" name="categoryName" id="categoryName">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-success" id="btnAddCategory">Add Category</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="container">
+                <div id="productList" class="row px-4">
+                    <template id="productListTemplate">
+                        <div class="card border-info" style="width: 18rem;background-color: rgb(108, 163, 169);">
+                            <img class="card-img-top mt-3" id="prodImg" src="" alt="Card image cap">
+                            <div class="card-body">
+                                <input type="hidden" id="prodId" class="prodId">
+                                <p class="card-text">Product Name:
+                                    <span id="prodName" class="fw-bold text-muted">Product</span>
+                                </p>
+                                <p class="card-text">Product Category:
+                                    <span id="prodCat" class="fw-bold text-muted">Category</span>
+                                </p>
+                                <div>
+                                    <span>
+                                        <p class="card-text">Quantity:
+                                            <span id="prodStock" class="fw-bold text-muted">0</span>
+                                            <i class="fa-regular fa-square-plus float-end fs-4 text-success" type="button"
+                                                onclick="updateStock(this.closest('.card').querySelector('.prodId').value, this.closest('.card').querySelector('#prodStock').textContent)"></i>
+                                        </p>
+                                    </span>
+                                </div>
+                                <div class="mt-5">
+                                    <button type="button" class="btn btn-outline-info btnProdUpdate bi bi-pencil-square"
+                                        data-bs-toggle="modal" data-bs-target="#addCategoryModal">EDIT</button>
+                                    <button type="button" class="btn btn-outline-danger float-end btnProdDelete bi bi-trash"
+                                        id="btnProdDelete">DELETE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Update Product Modal -->
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update Product</h5>
+                    </div>
+                    <form action="" class="UpDateff">
+                        <div class="modal-body">
+                            <input type="hidden" id="pEId">
+                            <div class="mb-3">
+                                <label for="editProductName" class="form-label">Product Name:</label>
+                                <input class="form-control" id="pEName" class="pEName" type="text"
+                                    placeholder="Product Name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editProductCategory" class="form-label">Product Category:</label>
+                                <select class="form-select mt-2" id="pUpCat"></select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editProductQuantity" class="form-label">Quantity:</label>
+                                <input class="form-control mt-2" id="pEQa" type="number" placeholder="Quantity">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editProductImage" class="form-label">Image:</label>
+                                <input class="form-control mt-2" id="pEPic" type="file" placeholder="Upload file"
+                                    onchange="displayImage()">
+                                <img src="" id="pView" alt=" " class="rounded mt-2" width="200" height="200">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                            <button type="button" class="btn btn-primary" id="productUpdateMan">SAVE
+                                CHANGES</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="script/product.js"></script>
+    <script src="script/category.js"></script>
+</body>
+
+</html>
